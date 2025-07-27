@@ -53,7 +53,7 @@ export function Footer() {
 				<div className="border-t border-gray-700 pt-8">
 					<div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-x-8 md:space-y-0">
 						{/* Copyright */}
-						<div className="text-gray-400 text-sm md:mr-4">
+						<div className="text-gray-400 text-md md:mr-4">
 							{" "}
 							{/* Added md:mr-4 for a small margin between text and icons on medium screens and up */}
 							© 2025 Giki Zero. Built by Rawad Hossain.{" "}
