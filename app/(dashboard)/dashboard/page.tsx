@@ -9,9 +9,6 @@ import { EmissionChart } from "@/components/emission-chart";
 import { CategoryBreakdown } from "@/components/category-breakdown";
 import { AITipsCarousel } from "@/components/ai-tips-carousel";
 import { RecentActivity } from "@/components/recent-activity";
-import { CategoryPerformanceCard } from "@/components/category-performance-card";
-import { Suspense } from "react";
-import { DashboardWelcomeToast } from "@/components/dashboard-welcome-toast";
 
 export default async function DashboardPage() {
 	const session = await getServerSession(authOptions);
@@ -59,7 +56,7 @@ export default async function DashboardPage() {
 	return (
 		<div className="space-y-4 sm:space-y-6">
 			{/* Mobile-optimized header */}
-			<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 animate-fade-in">
+			<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 				<div>
 					<h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
 						Welcome back, {user.name?.split(" ")[0] || "there"} 👋
@@ -68,7 +65,7 @@ export default async function DashboardPage() {
 						Track your carbon footprint and make a positive impact on the environment
 					</p>
 				</div>
-				<Button asChild className="w-full sm:w-auto touch-target animate-pop-in">
+				<Button asChild className="w-full sm:w-auto touch-target">
 					<Link href="/survey">
 						<Leaf className="mr-2 h-4 w-4" />
 						Take Survey
@@ -76,8 +73,8 @@ export default async function DashboardPage() {
 				</Button>
 			</div>
 
-			{/* Stats cards */}
-			<div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 animate-fade-in">
+			{/* Mobile-optimized stats cards */}
+			<div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
 				<Card className="shadow-lg">
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-xs sm:text-sm font-medium">
@@ -129,9 +126,9 @@ export default async function DashboardPage() {
 					</CardHeader>
 					<CardContent>
 						<div className="text-lg sm:text-2xl font-bold">{user.currentStreak}</div>
-						<p className="text-xs text-muted-foreground">
+						<span className="text-xs text-muted-foreground">
 							Days (Best: {user.longestStreak})
-						</p>
+						</span>
 					</CardContent>
 				</Card>
 
@@ -147,24 +144,20 @@ export default async function DashboardPage() {
 				</Card>
 			</div>
 
-			{/* Charts section */}
-			<div className="grid gap-4 lg:grid-cols-2 animate-fade-in">
+			{/* Mobile-optimized charts section */}
+			<div className="grid gap-4 lg:grid-cols-2">
 				<EmissionChart submissions={user.submissions} />
 				<CategoryBreakdown latestSubmission={latestSubmission} />
 			</div>
 
-			<div className="grid gap-4 lg:grid-cols-2 animate-fade-in">
+			{/* Mobile-optimized AI tips and activity */}
+			<div className="grid gap-4 lg:grid-cols-2">
 				<AITipsCarousel tips={user.aiTips} />
 				<RecentActivity submissions={user.submissions.slice(0, 5)} />
 			</div>
 
-			{/* Category Performance Card (new) */}
-
-			{/* Recent Activity below Smart Suggestions */}
-			<div className="animate-fade-in"></div>
-
-			{/* Quick Actions */}
-			<Card className="shadow-lg animate-pop-in">
+			{/* Mobile-optimized quick actions */}
+			<Card className="shadow-lg">
 				<CardHeader>
 					<CardTitle>Quick Actions</CardTitle>
 					<CardDescription>Continue your sustainability journey</CardDescription>
@@ -190,11 +183,6 @@ export default async function DashboardPage() {
 					</Button>
 				</CardContent>
 			</Card>
-
-			{/* Welcome toast (client-side) */}
-			<Suspense fallback={null}>
-				<DashboardWelcomeToast name={user.name} />
-			</Suspense>
 		</div>
 	);
 }

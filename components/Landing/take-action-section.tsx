@@ -17,7 +17,7 @@ export function TakeActionSection() {
 	}, []);
 
 	return (
-		<section className="py-20 px-4 bg-gradient-to-b from-black-950 to-gray-400 relative overflow-hidden">
+		<section className="py-20 px-4 bg-gradient-to-b from-gray-800 to-gray-900 relative overflow-hidden">
 			{/* Animated Wave Background */}
 			<div className="absolute inset-0 opacity-10">
 				<svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -53,7 +53,7 @@ export function TakeActionSection() {
 							Ready to Start?
 						</span>
 					</div>
-					<h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
+					<h2 className="text-4xl md:text-6xl font-bold text-white mb-4">
 						Take Action{" "}
 						<span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
 							Today
@@ -127,10 +127,10 @@ export function TakeActionSection() {
 									>
 										{card.icon}
 									</div>
-									<h3 className="text-3xl font-bold text-white mb-4 group-hover:text-green-400 transition-colors duration-300">
+									<h3 className="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-green-400 transition-colors duration-300">
 										{card.title}
 									</h3>
-									<p className="text-gray-300 text-lg leading-relaxed">
+									<p className="text-base md:text-lg text-gray-300 leading-relaxed">
 										{card.description}
 									</p>
 								</div>

@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 export function Navbar() {
 	const [isScrolled, setIsScrolled] = useState(false);
@@ -44,8 +43,10 @@ export function Navbar() {
 							/>
 						</div>
 						<div className="flex flex-col">
-							<span className="text-white font-bold text-xl">Giki Zero</span>
-							<span className="text-green-400 text-xs font-medium">
+							<span className="text-white font-bold text-lg sm:text-xl">
+								Giki Zero
+							</span>
+							<span className="text-green-400 text-xs sm:text-sm font-medium">
 								Carbon Intelligence
 							</span>
 						</div>
@@ -67,20 +68,15 @@ export function Navbar() {
 
 					{/* Desktop CTA */}
 					<div className="hidden md:flex items-center space-x-4">
-						<Link href="/auth/signin">
-							<Button
-								variant="ghost"
-								className="text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300"
-							>
-								Sign In
-							</Button>
-						</Link>
-
-						<Link href="/auth/signin">
-							<Button className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-green-500/25">
-								Get Started
-							</Button>
-						</Link>
+						<Button
+							variant="ghost"
+							className="text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300"
+						>
+							Sign In
+						</Button>
+						<Button className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-green-500/25">
+							Get Started
+						</Button>
 					</div>
 
 					{/* Mobile Menu Button */}

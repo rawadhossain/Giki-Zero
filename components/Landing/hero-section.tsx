@@ -3,9 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Recycle, TrendingUp, Brain, Sprout } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { WrapButton } from "../ui/wrap-Button";
+import Link from "next/link";
 
 export function HeroSection() {
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -112,7 +112,7 @@ export function HeroSection() {
 						</div>
 					</div>
 
-					<h1 className="text-6xl md:text-8xl font-bold text-white mb-4 leading-tight">
+					<h1 className="text-5xl md:text-8xl font-bold text-white mb-4 leading-tight">
 						<span className="inline-block animate-fade-in-up">Know</span>{" "}
 						<span className="inline-block animate-fade-in-up animation-delay-200">
 							Your
@@ -122,7 +122,7 @@ export function HeroSection() {
 						</span>
 					</h1>
 
-					<h2 className="text-2xl md:text-4xl font-light text-gray-300 mb-8 animate-fade-in-up animation-delay-600">
+					<h2 className="text-xl md:text-4xl font-light text-gray-300 mb-8 animate-fade-in-up animation-delay-600">
 						Live Sustainably with{" "}
 						<span className="font-bold text-green-400 relative">
 							Giki Zero
@@ -130,7 +130,7 @@ export function HeroSection() {
 						</span>
 					</h2>
 
-					<p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-800">
+					<p className="text-base md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-800">
 						Track your lifestyle. Understand your emissions. Take control of your
 						environmental impact.
 					</p>
@@ -139,13 +139,15 @@ export function HeroSection() {
 				{/* CTA Buttons */}
 				<div className="flex flex-col sm:flex-row gap-4 justify-center mb-20 animate-fade-in-up animation-delay-1000">
 					<div className="flex justify-center">
-						<Link href="/auth/signin">
+						<Link href="/dashboard">
 							<WrapButton className="mt-10">
 								<div className="flex items-center gap-2">
 									{" "}
 									{/* Added a flex container for the icon and text */}
-									<Sprout className="animate-pulse" />
-									<span>Start Tracking</span>{" "}
+									<Sprout className="animate-pulse bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparents" />
+									<span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+										Start Tracking
+									</span>{" "}
 									{/* Wrapped text in a span for better control */}
 								</div>
 							</WrapButton>
