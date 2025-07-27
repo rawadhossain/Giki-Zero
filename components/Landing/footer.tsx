@@ -48,7 +48,7 @@ export function Footer() {
 				</svg>
 			</div>
 
-			<div className="max-w-6xl mx-auto px-4 py-16 relative z-10">
+			<div className="max-w-6xl mx-auto px-4 py-12 relative z-10">
 				{/* Divider */}
 				<div className="border-t border-gray-700 pt-8">
 					<div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-x-8 md:space-y-0">
