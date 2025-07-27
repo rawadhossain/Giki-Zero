@@ -80,7 +80,7 @@ export const FloatingNav = ({
 				<div className="sm:hidden flex items-center">
 					<button
 						onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-						className="text-gray-300 hover:text-green-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500 rounded-md p-1"
+						className="text-gray-300 hover:text-green-400  focus:ring-inset rounded-md p-1"
 						aria-label="Toggle mobile menu"
 					>
 						{mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
