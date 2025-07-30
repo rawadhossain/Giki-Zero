@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Instagram, Twitter, Mail, MapPin, Phone } from "lucide-react";
+import { Github, Instagram, Twitter, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export function Footer() {
@@ -22,8 +22,10 @@ export function Footer() {
 		{ name: "Privacy", href: "#" },
 	];
 
+	// Modified socialLinks: No 'color' property needed for the icon itself now,
+	// as we'll apply text color directly and remove the background box.
 	const socialLinks = [
-		{ icon: Github, href: "github.com/rawadhossain", color: "from-gray-600 to-gray-800" },
+		{ icon: Github, href: "https://github.com/rawadhossain" }, // Added full URL for href
 	];
 
 	return (
@@ -53,11 +55,9 @@ export function Footer() {
 				<div className="border-t border-gray-700 pt-8">
 					<div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-x-8 md:space-y-0">
 						{/* Copyright */}
-						<div className="text-gray-400 text-md md:mr-4">
-							{" "}
-							{/* Added md:mr-4 for a small margin between text and icons on medium screens and up */}
-							© 2025 Giki Zero. Built by Rawad Hossain.{" "}
-							{/* <span className="text-green-400">💚</span> for a sustainable future. */}
+						<div className="text-gray-400 text-md md:mr-4 text-center md:text-left">
+							© 2025 Giki Zero. Built by{" "}
+							<span className="text-green-400 font-semibold">Rawad Hossain</span>.
 						</div>
 
 						{/* Social Links */}
@@ -66,24 +66,34 @@ export function Footer() {
 								<a
 									key={index}
 									href={social.href}
-									className="group relative"
-									onMouseEnter={() => setHoveredSocial(index)}
-									onMouseLeave={() => setHoveredSocial(null)}
+									target="_blank" // Open in new tab for external links
+									rel="noopener noreferrer" // Security best practice for target="_blank"
+									className="text-gray-400 hover:text-green-400 transition-colors duration-200"
 								>
-									<div
-										className={`p-3 rounded-xl bg-gradient-to-br ${social.color} shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 hover:-translate-y-1`}
-									>
-										<social.icon className="w-5 h-5 text-white" />
-									</div>
-
-									{/* Glow Effect */}
-									{hoveredSocial === index && (
-										<div
-											className={`absolute inset-0 bg-gradient-to-br ${social.color} rounded-xl blur-lg opacity-50 animate-pulse -z-10`}
-										/>
-									)}
+									<social.icon className="w-6 h-6" />
 								</a>
 							))}
+							{/* Add other social links similarly if needed */}
+							{/* <a
+								href="#"
+								className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
+							>
+								<Twitter className="w-6 h-6" />
+							</a> */}
+							<a
+								href="https://www.linkedin.com/in/rawadhossain/"
+								className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
+							>
+								<Linkedin className="w-6 h-6" />
+							</a>
+							{/*
+                            <a href="#" className="text-gray-400 hover:text-pink-400 transition-colors duration-200">
+                                <Instagram className="w-6 h-6" />
+                            </a>
+                            <a href="#" className="text-gray-400 hover:text-red-400 transition-colors duration-200">
+                                <Mail className="w-6 h-6" />
+                            </a>
+                            */}
 						</div>
 					</div>
 				</div>

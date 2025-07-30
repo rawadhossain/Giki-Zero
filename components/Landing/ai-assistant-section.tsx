@@ -51,7 +51,7 @@ export function AIAssistantSection() {
 	}, []);
 
 	return (
-		<section className="py-15 px-4 bg-gradient-to-b from-gray-900 via-black to-gray-900 relative overflow-hidden">
+		<section className="py-20 px-4 bg-gradient-to-b from-gray-900 via-black to-gray-900 relative overflow-hidden">
 			{/* Neural Network Background */}
 			<div className="absolute inset-0 opacity-10">
 				<svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">

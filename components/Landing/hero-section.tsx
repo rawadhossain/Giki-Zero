@@ -19,7 +19,7 @@ export function HeroSection() {
 	}, []);
 
 	return (
-		<section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-800 pt-20">
+		<section className="pb-2 relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-800 pt-20">
 			{/* Animated Mesh Background */}
 			<div className="absolute inset-0 opacity-20">
 				<svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">

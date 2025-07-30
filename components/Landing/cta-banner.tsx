@@ -16,7 +16,7 @@ export function CTABanner() {
 	}, []);
 
 	return (
-		<section className="py-20 px-4 bg-gradient-to-b from-gray-900 via-black to-gray-900 relative overflow-hidden">
+		<section className="py-15 px-4 bg-gradient-to-b from-gray-900 via-black to-gray-900 relative overflow-hidden">
 			{/* Smooth Flowing Gradients */}
 			<div className="absolute inset-0 opacity-15">
 				<svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">

@@ -44,7 +44,7 @@ export function HowItWorksSection() {
 	];
 
 	return (
-		<section className="py-15 px-4 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
+		<section className="py-15 px-4 pb-1 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
 			{/* Flowing Lines Background */}
 			<div className="absolute inset-0 opacity-15">
 				<svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
