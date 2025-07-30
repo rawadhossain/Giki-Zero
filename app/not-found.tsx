@@ -74,10 +74,17 @@ export default function NotFound() {
 				{/* Logo Section */}
 				<div className="flex items-center justify-center space-x-3 mb-8 animate-fade-in-up">
 					<div className="relative w-12 h-12">
-						<Image
-							src="/images/giki-logo.png"
+						{/* <Image
+							src="/public/images/giki-logo.png"
 							alt="Giki Zero Logo"
 							fill
+							className="object-contain"
+						/> */}
+						<Image
+							height={42}
+							width={42}
+							src="/giki-logo.png"
+							alt="Giki Zero Logo"
 							className="object-contain"
 						/>
 					</div>
