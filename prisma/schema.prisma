@@ -40,6 +40,7 @@ model User {
   email               String    @unique
   emailVerified       DateTime?
   image               String?
+  password            String? // Added password field for credentials login
   age                 String?
   location            String?
   onboardingCompleted Boolean   @default(false)
@@ -48,13 +49,13 @@ model User {
   totalPoints         Int       @default(0)
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
-  
-  accounts      Account[]
-  sessions      Session[]
-  submissions   Submission[]
-  badges        UserBadge[]
-  aiTips        AiTip[]
-  reports       Report[]
+
+  accounts    Account[]
+  sessions    Session[]
+  submissions Submission[]
+  badges      UserBadge[]
+  aiTips      AiTip[]
+  reports     Report[]
 }
 
 model VerificationToken {
@@ -66,91 +67,84 @@ model VerificationToken {
 }
 
 model Submission {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   // Transportation
   transportationType      String?
   transportationFrequency String?
   transportationDistance  String?
   transportationScore     Float   @default(0)
-  
+
   // Energy
   electricityUnits String?
   renewableEnergy  Boolean @default(false)
   energyScore      Float   @default(0)
-  
+
   // Water
   waterUsage String?
   waterScore Float   @default(0)
-  
+
   // Diet
   dietType       String?
   meatIntakeFreq String?
   dietScore      Float   @default(0)
-  
+
   // Food waste
   foodWasteLevel String?
   foodWasteScore Float   @default(0)
-  
+
   // Shopping
   clothesPerMonth String?
   shoppingScore   Float   @default(0)
-  
+
   // Waste
   recyclingHabits String?
   wasteScore      Float   @default(0)
-  
+
   // Electronics
-  streamingHabits    String?
-  electronicsScore   Float   @default(0)
-  
+  streamingHabits  String?
+  electronicsScore Float   @default(0)
+
   // Travel
   airTravelFreq String?
   travelScore   Float   @default(0)
-  
+
   // Appliances
   applianceUsage String?
   applianceScore Float   @default(0)
 
-  // New categories
-  homeScore    Float   @default(0)
-  heatingScore Float   @default(0)
-  digitalScore Float   @default(0)
-  petsScore    Float   @default(0)
-  gardenScore  Float   @default(0)
-  
-  totalEmissionScore Float @default(0)
+  totalEmissionScore Float  @default(0)
   impactCategory     String @default("Medium") // Low, Medium, High
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model AiTip {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   title       String
-  description String   @db.Text
+  description String @db.Text
   category    String
   impact      String
-  reasoning   String   @db.Text
-  
-  createdAt   DateTime @default(now())
+  reasoning   String @db.Text
+
+  createdAt DateTime @default(now())
 }
 
 model Badge {
-  id          String      @id @default(cuid())
-  name        String      @unique
+  id          String @id @default(cuid())
+  name        String @unique
   description String
   icon        String
   category    String
   requirement String
-  
-  users       UserBadge[]
+
+  users UserBadge[]
 }
 
 model UserBadge {
@@ -158,28 +152,29 @@ model UserBadge {
   userId   String
   badgeId  String
   earnedAt DateTime @default(now())
-  
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  badge    Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
-  
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
   @@unique([userId, badgeId])
 }
 
-model Question {
-  id          String @id @default(cuid())
-  category    String
-  question    String
-  type        String // select, radio, range
-  options     Json?
-  weight      Float  @default(1.0)
-  isActive    Boolean @default(true)
+model Report {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type      String // weekly, monthly, quarterly, yearly
+  filename  String
+  createdAt DateTime @default(now())
 }
 
-model Report {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  filename  String
-  fileType  String
-  createdAt DateTime @default(now())
+model Question {
+  id       String  @id @default(cuid())
+  category String
+  question String
+  type     String // select, radio, range
+  options  Json?
+  weight   Float   @default(1.0)
+  isActive Boolean @default(true)
 }
