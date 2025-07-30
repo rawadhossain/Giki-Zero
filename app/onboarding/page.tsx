@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-
+import type React from "react";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -16,9 +15,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { Leaf, ArrowRight, CheckCircle } from "lucide-react";
+import { Leaf, ArrowRight, CheckCircle, SproutIcon } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
+import Image from "next/image";
 
 export default function Onboarding() {
 	const { data: session, update } = useSession();
@@ -30,12 +30,12 @@ export default function Onboarding() {
 		location: "",
 	});
 
-	// Redirect if onboarding is already completed
-	React.useEffect(() => {
-		if (session?.user?.onboardingCompleted) {
-			router.push("/dashboard");
-		}
-	}, [session, router]);
+	const handleInputChange = (field: string, value: string) => {
+		setFormData((prev) => ({
+			...prev,
+			[field]: value,
+		}));
+	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -51,42 +51,42 @@ export default function Onboarding() {
 			});
 
 			if (response.ok) {
-				await update({
-					onboardingCompleted: true,
+				// Update the session to reflect onboarding completion
+				await update({ onboardingCompleted: true });
+
+				toast.success("Profile completed successfully!", {
+					description:
+						"Welcome to Giki Zero! Let's start tracking your carbon footprint.",
 				});
-				toast.success("Profile created successfully!", {
-					description: "Welcome to Giki Zero! Your journey to sustainability starts now.",
-					duration: 4000,
-				});
+
 				router.push("/dashboard");
+				router.refresh();
 			} else {
 				const errorData = await response.json();
-				toast.error("Failed to save profile", {
+				toast.error("Failed to complete onboarding", {
 					description: errorData.error || "Please try again.",
 				});
 			}
 		} catch (error) {
 			console.error("Onboarding error:", error);
-			toast.error("An unexpected error occurred", {
-				description: "Please check your connection and try again.",
-			});
+			toast.error("An unexpected error occurred. Please try again.");
 		} finally {
 			setIsLoading(false);
 		}
 	};
 
-	const isFormValid = formData.name && formData.age && formData.location;
-	const progress = Object.values(formData).filter(Boolean).length * 33.33;
+	const isFormValid = formData.name.trim() && formData.age && formData.location.trim();
+	const progress = Object.values(formData).filter((value) => value.trim()).length * 33.33;
 
 	return (
 		<div className="min-h-screen flex flex-col bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
 			{/* Mobile-friendly header */}
 			<div className="flex items-center justify-center p-4 sm:p-6">
 				<div className="flex items-center gap-2">
-					<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-white">
+					{/* <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-white">
 						<Leaf className="h-4 w-4" />
 					</div>
-					<span className="text-lg font-semibold">Giki Zero</span>
+					<span className="text-lg font-semibold">Giki Zero</span> */}
 				</div>
 			</div>
 
@@ -106,8 +106,19 @@ export default function Onboarding() {
 				<Card className="w-full max-w-md mx-auto">
 					<CardHeader className="space-y-1 text-center pb-4">
 						<div className="flex items-center justify-center mb-4">
-							<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-600 text-white">
-								<CheckCircle className="h-6 w-6" />
+							{/* Original commented out section - keeping it commented as per original
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-600 text-white">
+                                <Leaf className="h-6 w-6" />
+                            </div>
+                            */}
+
+							<div className="flex items-center gap-2">
+								<div className="flex h-8 w-8 items-center justify-center rounded-lg text-green-600">
+									<SproutIcon className="h-12 w-12" />
+								</div>
+								<span className="text-lg font-semibold dark:text-gray-50">
+									Giki Zero
+								</span>
 							</div>
 						</div>
 						<CardTitle className="text-2xl">Complete Your Profile</CardTitle>
@@ -124,9 +135,7 @@ export default function Onboarding() {
 									type="text"
 									placeholder="Enter your full name"
 									value={formData.name}
-									onChange={(e) =>
-										setFormData({ ...formData, name: e.target.value })
-									}
+									onChange={(e) => handleInputChange("name", e.target.value)}
 									required
 									className="touch-target"
 									autoComplete="name"
@@ -136,9 +145,8 @@ export default function Onboarding() {
 							<div className="space-y-2">
 								<Label htmlFor="age">Age Range</Label>
 								<Select
-									onValueChange={(value) =>
-										setFormData({ ...formData, age: value })
-									}
+									onValueChange={(value) => handleInputChange("age", value)}
+									value={formData.age}
 								>
 									<SelectTrigger className="touch-target">
 										<SelectValue placeholder="Select your age range" />
@@ -161,9 +169,7 @@ export default function Onboarding() {
 									type="text"
 									placeholder="City, Country"
 									value={formData.location}
-									onChange={(e) =>
-										setFormData({ ...formData, location: e.target.value })
-									}
+									onChange={(e) => handleInputChange("location", e.target.value)}
 									required
 									className="touch-target"
 									autoComplete="address-level2"
