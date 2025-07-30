@@ -111,8 +111,7 @@
 	}
 	body {
 		@apply bg-background text-foreground;
-		/* Prevent zoom on iOS */
-		-webkit-text-size-adjust: 100%;
+
 		/* Better font rendering on mobile */
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
