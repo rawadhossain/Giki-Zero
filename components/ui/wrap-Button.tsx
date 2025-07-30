@@ -38,10 +38,10 @@ export const WrapButton: React.FC<WrapButtonProps> = ({ className, children, hre
 		"overflow-hidden",
 	].join(" "); // Join with space if not directly passed to cn
 
-	// Define common inner content styles
+	// Updated inner content styles with better dark theme and green accents
 	const innerContentBaseClasses = [
 		"border",
-		"border-gray-700",
+		"border-gray-600/50",
 		"h-[56px]",
 		"sm:h-[68px]",
 		"rounded-full",
@@ -53,8 +53,22 @@ export const WrapButton: React.FC<WrapButtonProps> = ({ className, children, hre
 		"sm:px-10",
 		"relative",
 		"z-10",
-		"overflow-hidden", // Added overflow-hidden for shimmer
-		"bg-gray-800/50", // Base background for the content area
+		"overflow-hidden",
+		// Updated background with dark theme and subtle green gradient
+		"bg-gradient-to-r",
+		"from-gray-900/90",
+		"via-gray-800/90",
+		"to-gray-900/90",
+		// Hover effects
+		"group-hover:border-green-400/60",
+		"group-hover:bg-gradient-to-r",
+		"group-hover:from-gray-900/95",
+		"group-hover:via-green-900/20",
+		"group-hover:to-gray-900/95",
+		"group-hover:shadow-inner",
+		"group-hover:shadow-green-500/10",
+		"transition-all",
+		"duration-300",
 	].join(" ");
 
 	// Define common arrow circle styles
@@ -88,10 +102,19 @@ export const WrapButton: React.FC<WrapButtonProps> = ({ className, children, hre
 						{/* Inner content container */}
 						<div className={cn(innerContentBaseClasses)}>
 							{children}
-							{/* Gradient Shimmer Overlay on hover for the main text area */}
-							<span className="absolute inset-0 rounded-full bg-gradient-to-r from-green-500/10 via-blue-500/10 to-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+							{/* Enhanced gradient shimmer overlay on hover */}
+							<span className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400/20 via-emerald-400/20 to-green-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-							{/* New: Moving Gradient Shimmer */}
+							{/* Moving gradient shimmer effect */}
+							<span
+								className={cn(
+									"absolute inset-0 rounded-full bg-[size:200%_auto]",
+									"bg-gradient-to-r from-transparent via-green-400/30 to-transparent",
+									"opacity-0 group-hover:opacity-100",
+									"group-hover:animate-[shimmer_1.5s_infinite]",
+									"transition-opacity duration-300"
+								)}
+							/>
 						</div>
 
 						{/* Animated Arrow Circle */}
@@ -112,13 +135,14 @@ export const WrapButton: React.FC<WrapButtonProps> = ({ className, children, hre
 						<span className="font-medium tracking-tight">
 							{children ? children : "Get Started"}
 						</span>
-						<span className="absolute inset-0 rounded-full bg-gradient-to-r from-green-500/10 via-blue-500/10 to-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+						{/* Enhanced gradient shimmer overlay on hover */}
+						<span className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400/20 via-emerald-400/20 to-green-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-						{/* New: Moving Gradient Shimmer (for non-href button) */}
+						{/* Moving gradient shimmer effect */}
 						<span
 							className={cn(
 								"absolute inset-0 rounded-full bg-[size:200%_auto]",
-								"bg-gradient-to-r from-transparent via-white/30 to-transparent",
+								"bg-gradient-to-r from-transparent via-green-400/30 to-transparent",
 								"opacity-0 group-hover:opacity-100",
 								"group-hover:animate-[shimmer_1.5s_infinite]",
 								"transition-opacity duration-300"
