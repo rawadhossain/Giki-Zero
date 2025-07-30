@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useState } from "react";
 import { signIn, getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -18,14 +17,24 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Leaf, Mail, ArrowLeft } from "lucide-react";
+import { Mail, ArrowLeft, SproutIcon } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "sonner";
 
 export default function SignIn() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [formData, setFormData] = useState({
+		email: "",
+		password: "",
+	});
 	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setFormData((prev) => ({
+			...prev,
+			[e.target.name]: e.target.value,
+		}));
+	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -33,17 +42,28 @@ export default function SignIn() {
 
 		try {
 			const result = await signIn("credentials", {
-				email,
-				password,
+				email: formData.email,
+				password: formData.password,
 				redirect: false,
 			});
 
 			if (result?.ok) {
 				const session = await getSession();
-				router.push("/onboarding");
+				toast.success("Signed in successfully!", {
+					description: `Welcome back${
+						session?.user?.name ? `, ${session.user.name}` : ""
+					}!`,
+				});
+				router.push("/dashboard");
+				router.refresh();
+			} else {
+				toast.error("Sign in failed", {
+					description: "Invalid email or password. Please try again.",
+				});
 			}
 		} catch (error) {
 			console.error("Sign in error:", error);
+			toast.error("An unexpected error occurred. Please try again.");
 		} finally {
 			setIsLoading(false);
 		}
@@ -52,54 +72,92 @@ export default function SignIn() {
 	const handleGoogleSignIn = async () => {
 		setIsLoading(true);
 		try {
-			await signIn("google", { callbackUrl: "/onboarding" });
+			const result = await signIn("google", {
+				callbackUrl: "/dashboard",
+				redirect: false,
+			});
+
+			if (result?.ok) {
+				toast.success("Signed in with Google successfully!");
+				router.push("/dashboard");
+				router.refresh();
+			} else if (result?.error) {
+				toast.error("Google sign in failed", {
+					description: "Please try again or use email/password.",
+				});
+			}
 		} catch (error) {
 			console.error("Google sign in error:", error);
+			toast.error("Google sign in failed. Please try again.");
 		} finally {
 			setIsLoading(false);
 		}
 	};
 
+	const isFormValid = formData.email && formData.password;
+
 	return (
-		<div className="min-h-screen flex flex-col bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+		<div className="min-h-screen flex flex-col bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-950 dark:to-black">
 			{/* Mobile-friendly header */}
 			<div className="flex items-center justify-between p-4 sm:p-6">
 				<Button
 					variant="ghost"
 					size="icon"
-					onClick={() => router.back()}
+					onClick={() => router.push("/")}
 					className="touch-target"
 				>
 					<ArrowLeft className="h-5 w-5" />
 				</Button>
-				{/* <div className="flex items-center gap-2">
-					<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-white">
-						<Leaf className="h-4 w-4" />
-					</div>
-					<span className="text-lg font-semibold">Giki Zero</span>
-				</div> */}
-				<div className="w-10" /> {/* Spacer for centering */}
+				{/*
+                // Original commented out section - keeping it commented as per original
+                <div className="flex items-center gap-2">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-white">
+                        <Leaf className="h-4 w-4" />
+                    </div>
+                    <span className="text-lg font-semibold">Giki Zero</span>
+                </div>
+                */}
+				<div className="w-10" />
 			</div>
 
 			{/* Main content */}
 			<div className="flex-1 flex items-center justify-center p-4">
-				<Card className="w-full max-w-md mx-auto">
+				<Card
+					className="w-full max-w-md mx-auto 
+                               dark:bg-gray-800 dark:border-gray-700 
+                               dark:shadow-xl dark:shadow-green-500/20 
+                               dark:ring-1 dark:ring-green-600/50 
+                               transition-all duration-300 ease-in-out
+                               hover:dark:shadow-green-500/40 hover:dark:ring-green-500"
+				>
 					<CardHeader className="space-y-1 text-center pb-4">
 						<div className="flex items-center justify-center mb-4">
-							<div className="flex h-12 w-12 items-center justify-center rounded-lg">
-								<Leaf className="h-8 w-8" />
+							{/* Original commented out section - keeping it commented as per original
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-600 text-white">
+                                <Leaf className="h-6 w-6" />
+                            </div>
+                            */}
+
+							<div className="flex items-center gap-2">
+								<div className="flex h-8 w-8 items-center justify-center rounded-lg text-green-600">
+									<SproutIcon className="h-12 w-12" />
+								</div>
+								<span className="text-lg font-semibold dark:text-gray-50">
+									Giki Zero
+								</span>
 							</div>
-							<span className="text-2xl font-bold">Giki Zero</span>
 						</div>
-						<CardTitle className="text-2xl">Welcome Back</CardTitle>
-						<CardDescription>
+						<CardTitle className="text-2xl dark:text-gray-50">Welcome Back</CardTitle>
+						<CardDescription className="dark:text-gray-300">
 							Sign in to continue tracking your carbon footprint
 						</CardDescription>
 					</CardHeader>
 					<CardContent className="space-y-4">
 						<Button
 							variant="outline"
-							className="w-full bg-transparent touch-target"
+							className="w-full bg-transparent touch-target
+                                       dark:bg-gray-700 dark:text-gray-50 dark:border-gray-600
+                                       dark:hover:bg-gray-600 dark:hover:border-green-500"
 							onClick={handleGoogleSignIn}
 							disabled={isLoading}
 						>
@@ -109,10 +167,10 @@ export default function SignIn() {
 
 						<div className="relative">
 							<div className="absolute inset-0 flex items-center">
-								<Separator className="w-full" />
+								<Separator className="w-full dark:bg-gray-600" />
 							</div>
 							<div className="relative flex justify-center text-xs uppercase">
-								<span className="bg-background px-2 text-muted-foreground">
+								<span className="bg-background px-2 text-muted-foreground dark:bg-gray-800 dark:text-gray-400">
 									Or continue with email
 								</span>
 							</div>
@@ -120,35 +178,47 @@ export default function SignIn() {
 
 						<form onSubmit={handleSubmit} className="space-y-4">
 							<div className="space-y-2">
-								<Label htmlFor="email">Email</Label>
+								<Label htmlFor="email" className="dark:text-gray-300">
+									Email
+								</Label>
 								<Input
 									id="email"
+									name="email"
 									type="email"
 									placeholder="Enter your email"
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
+									value={formData.email}
+									onChange={handleChange}
 									required
-									className="touch-target"
+									className="touch-target
+                                               dark:bg-gray-700 dark:text-gray-50 dark:border-gray-600
+                                               dark:placeholder-gray-400 dark:focus:ring-green-500"
 									autoComplete="email"
 								/>
 							</div>
 							<div className="space-y-2">
-								<Label htmlFor="password">Password</Label>
+								<Label htmlFor="password" className="dark:text-gray-300">
+									Password
+								</Label>
 								<Input
 									id="password"
+									name="password"
 									type="password"
 									placeholder="Enter your password"
-									value={password}
-									onChange={(e) => setPassword(e.target.value)}
+									value={formData.password}
+									onChange={handleChange}
 									required
-									className="touch-target"
+									className="touch-target
+                                               dark:bg-gray-700 dark:text-gray-50 dark:border-gray-600
+                                               dark:placeholder-gray-400 dark:focus:ring-green-500"
 									autoComplete="current-password"
 								/>
 							</div>
 							<Button
 								type="submit"
-								className="w-full touch-target"
-								disabled={isLoading}
+								className="w-full touch-target
+                                           dark:bg-green-700 dark:text-white dark:hover:bg-green-600
+                                           dark:focus:ring-green-500"
+								disabled={isLoading || !isFormValid}
 							>
 								<Mail className="mr-2 h-4 w-4" />
 								{isLoading ? "Signing in..." : "Sign in"}
@@ -156,11 +226,11 @@ export default function SignIn() {
 						</form>
 					</CardContent>
 					<CardFooter>
-						<p className="text-center text-sm text-muted-foreground w-full">
+						<p className="text-center text-sm text-muted-foreground w-full dark:text-gray-400">
 							Don't have an account?{" "}
 							<Link
 								href="/auth/signup"
-								className="text-green-600 hover:underline font-medium"
+								className="text-green-600 hover:underline font-medium dark:text-green-400"
 							>
 								Sign up
 							</Link>
