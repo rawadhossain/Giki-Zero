@@ -36,6 +36,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
 
 const navigationItems = [
 	{
@@ -84,8 +85,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 			<SidebarHeader>
 				<div className="flex items-center gap-2 px-4 py-2">
 					<div className="flex h-8 w-8 items-center justify-center rounded-lg">
-						<Leaf className="h-4 w-4" />
+						{/* <Leaf className="h-4 w-4" /> */}
 						{/* <img src="/public/giki-logo.png" alt="Giki Zero Logo" className="h-4 w-4" /> */}
+						<Image height={42} width={42} src="/giki-logo.png" alt="Giki Zero Logo" />
 					</div>
 					<div className="grid flex-1 text-left text-sm leading-tight">
 						<span className="truncate font-semibold">Giki Zero</span>
