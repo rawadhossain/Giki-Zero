@@ -68,6 +68,8 @@ export default function ChatBot() {
 							onClick={toggleChat}
 							size="icon"
 							className="rounded-full size-12 p-2 shadow-xl cursor-pointer"
+							title="ChatBot"
+							aria-label="ChatBot"
 						>
 							{!isChatOpen ? (
 								<BotMessageSquare className="size-6" />
