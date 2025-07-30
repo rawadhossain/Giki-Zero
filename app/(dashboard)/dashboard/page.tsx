@@ -75,9 +75,13 @@ export default async function DashboardPage() {
 
 			{/* Mobile-optimized stats cards */}
 			<div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-				<Card className="shadow-lg">
-					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-xs sm:text-sm font-medium">
+				{/* <Card className="shadow-lg"> */}
+				{/* <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"> */}
+				{/* <CardTitle className="text-xs sm:text-sm font-medium"> */}
+
+				<Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/50 dark:to-emerald-950/50">
+					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3 px-3">
+						<CardTitle className="text-xs font-medium text-muted-foreground truncate">
 							Current Score
 						</CardTitle>
 						<Leaf className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
@@ -104,9 +108,12 @@ export default async function DashboardPage() {
 					</CardContent>
 				</Card>
 
-				<Card className="shadow-lg">
+				{/* <Card className="shadow-lg">
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-xs sm:text-sm font-medium">
+						<CardTitle className="text-xs sm:text-sm font-medium"> */}
+				<Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/50 dark:to-cyan-950/50">
+					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3 px-3">
+						<CardTitle className="text-xs font-medium text-muted-foreground truncate">
 							Impact Level
 						</CardTitle>
 						<Target className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
@@ -119,9 +126,14 @@ export default async function DashboardPage() {
 					</CardContent>
 				</Card>
 
-				<Card className="shadow-lg">
+				{/* <Card className="shadow-lg">
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-xs sm:text-sm font-medium">Streak</CardTitle>
+						<CardTitle className="text-xs sm:text-sm font-medium"> */}
+				<Card className="border-0 shadow-lg bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/50 dark:to-orange-950/50">
+					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3 px-3">
+						<CardTitle className="text-xs font-medium text-muted-foreground truncate">
+							Streak
+						</CardTitle>
 						<Award className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
@@ -132,9 +144,14 @@ export default async function DashboardPage() {
 					</CardContent>
 				</Card>
 
-				<Card className="shadow-lg">
+				{/* <Card className="shadow-lg">
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-xs sm:text-sm font-medium">Points</CardTitle>
+						<CardTitle className="text-xs sm:text-sm font-medium"> */}
+				<Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-950/50 dark:to-violet-950/50">
+					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3 px-3">
+						<CardTitle className="text-xs font-medium text-muted-foreground truncate">
+							Points
+						</CardTitle>
 						<Zap className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
