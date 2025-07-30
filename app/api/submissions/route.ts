@@ -44,12 +44,6 @@ export async function POST(request: NextRequest) {
 				travelScore: scores.travel,
 				applianceUsage: data.applianceUsage,
 				applianceScore: scores.appliance,
-				// New categories
-				homeScore: scores.home,
-				heatingScore: scores.heating,
-				digitalScore: scores.digital,
-				petsScore: scores.pets,
-				gardenScore: scores.garden,
 				totalEmissionScore: totalScore,
 				impactCategory,
 			},
@@ -61,12 +55,7 @@ export async function POST(request: NextRequest) {
 		// Generate AI tips
 		await generateAITips(session.user.id, data, totalScore, impactCategory);
 
-		return NextResponse.json({
-			submission,
-			totalScore,
-			impactCategory,
-			message: "Survey submitted successfully",
-		});
+		return NextResponse.json({ submission, totalScore, impactCategory });
 	} catch (error) {
 		console.error("Submission error:", error);
 		return NextResponse.json({ error: "Internal server error" }, { status: 500 });
@@ -111,61 +100,55 @@ export async function GET(request: NextRequest) {
 }
 
 async function updateUserStats(userId: string, currentScore: number) {
-	try {
-		const user = await prisma.user.findUnique({
-			where: { id: userId },
-			include: {
-				submissions: {
-					orderBy: { createdAt: "desc" },
-					take: 2,
-				},
+	const user = await prisma.user.findUnique({
+		where: { id: userId },
+		include: {
+			submissions: {
+				orderBy: { createdAt: "desc" },
+				take: 2,
 			},
-		});
+		},
+	});
 
-		if (!user) return;
+	if (!user) return;
 
-		let points = 0;
-		let streakIncrement = 0;
+	let points = 0;
+	let streakIncrement = 0;
 
-		// Award points based on improvement
-		if (user.submissions.length > 1) {
-			const previousScore = user.submissions[1].totalEmissionScore;
-			if (currentScore < previousScore) {
-				points = Math.floor((previousScore - currentScore) / 10);
-				streakIncrement = 1;
-			}
-		} else {
-			points = 50; // First submission bonus
+	// Award points based on improvement
+	if (user.submissions.length > 1) {
+		const previousScore = user.submissions[1].totalEmissionScore;
+		if (currentScore < previousScore) {
+			points = Math.floor((previousScore - currentScore) / 10);
 			streakIncrement = 1;
 		}
-
-		// Check if submission is within 24 hours of last one for streak
-		const lastSubmission = user.submissions[0];
-		const now = new Date();
-		const daysSinceLastSubmission = lastSubmission
-			? Math.floor(
-					(now.getTime() - lastSubmission.createdAt.getTime()) / (1000 * 60 * 60 * 24)
-			  )
-			: 999;
-
-		let newStreak = user.currentStreak;
-		if (daysSinceLastSubmission <= 1) {
-			newStreak += streakIncrement;
-		} else if (daysSinceLastSubmission > 7) {
-			newStreak = streakIncrement;
-		}
-
-		await prisma.user.update({
-			where: { id: userId },
-			data: {
-				currentStreak: newStreak,
-				longestStreak: Math.max(user.longestStreak, newStreak),
-				totalPoints: user.totalPoints + points,
-			},
-		});
-	} catch (error) {
-		console.error("Error updating user stats:", error);
+	} else {
+		points = 50; // First submission bonus
+		streakIncrement = 1;
 	}
+
+	// Check if submission is within 24 hours of last one for streak
+	const lastSubmission = user.submissions[0];
+	const now = new Date();
+	const daysSinceLastSubmission = lastSubmission
+		? Math.floor((now.getTime() - lastSubmission.createdAt.getTime()) / (1000 * 60 * 60 * 24))
+		: 999;
+
+	let newStreak = user.currentStreak;
+	if (daysSinceLastSubmission <= 1) {
+		newStreak += streakIncrement;
+	} else if (daysSinceLastSubmission > 7) {
+		newStreak = streakIncrement;
+	}
+
+	await prisma.user.update({
+		where: { id: userId },
+		data: {
+			currentStreak: newStreak,
+			longestStreak: Math.max(user.longestStreak, newStreak),
+			totalPoints: user.totalPoints + points,
+		},
+	});
 }
 
 async function generateAITips(
@@ -174,57 +157,53 @@ async function generateAITips(
 	totalScore: number,
 	impactCategory: string
 ) {
-	try {
-		// For now, we'll create some sample tips
-		// In production, this would call the AI API
-		const sampleTips = [
-			{
-				title: "Switch to Public Transport",
-				description:
-					"Consider using public transportation or carpooling to reduce your transportation emissions by up to 45%.",
-				category: "Transportation",
-				impact: "High",
-				reasoning:
-					"Transportation accounts for a significant portion of your carbon footprint. Public transport can dramatically reduce individual emissions.",
-			},
-			{
-				title: "Reduce Meat Consumption",
-				description:
-					"Try having one or two plant-based meals per week to lower your dietary carbon footprint.",
-				category: "Diet",
-				impact: "Medium",
-				reasoning:
-					"Livestock farming produces significant greenhouse gases. Even small reductions in meat consumption can make a meaningful difference.",
-			},
-			{
-				title: "Improve Home Energy Efficiency",
-				description:
-					"Consider switching to LED bulbs and unplugging devices when not in use to reduce energy consumption.",
-				category: "Energy",
-				impact: "Medium",
-				reasoning:
-					"Small changes in energy usage can compound over time, reducing both your carbon footprint and energy bills.",
-			},
-		];
+	// For now, we'll create some sample tips
+	// In production, this would call the AI API
+	const sampleTips = [
+		{
+			title: "Switch to Public Transport",
+			description:
+				"Consider using public transportation or carpooling to reduce your transportation emissions by up to 45%.",
+			category: "Transportation",
+			impact: "High",
+			reasoning:
+				"Transportation accounts for a significant portion of your carbon footprint. Public transport can dramatically reduce individual emissions.",
+		},
+		{
+			title: "Reduce Meat Consumption",
+			description:
+				"Try having one or two plant-based meals per week to lower your dietary carbon footprint.",
+			category: "Diet",
+			impact: "Medium",
+			reasoning:
+				"Livestock farming produces significant greenhouse gases. Even small reductions in meat consumption can make a meaningful difference.",
+		},
+		{
+			title: "Improve Home Energy Efficiency",
+			description:
+				"Consider switching to LED bulbs and unplugging devices when not in use to reduce energy consumption.",
+			category: "Energy",
+			impact: "Medium",
+			reasoning:
+				"Small changes in energy usage can compound over time, reducing both your carbon footprint and energy bills.",
+		},
+	];
 
-		// Delete old tips and create new ones
-		await prisma.aiTip.deleteMany({
-			where: { userId },
+	// Delete old tips and create new ones
+	await prisma.aiTip.deleteMany({
+		where: { userId },
+	});
+
+	for (const tip of sampleTips) {
+		await prisma.aiTip.create({
+			data: {
+				userId,
+				title: tip.title,
+				description: tip.description,
+				category: tip.category,
+				impact: tip.impact,
+				reasoning: tip.reasoning,
+			},
 		});
-
-		for (const tip of sampleTips) {
-			await prisma.aiTip.create({
-				data: {
-					userId,
-					title: tip.title,
-					description: tip.description,
-					category: tip.category,
-					impact: tip.impact,
-					reasoning: tip.reasoning,
-				},
-			});
-		}
-	} catch (error) {
-		console.error("Error generating AI tips:", error);
 	}
 }
