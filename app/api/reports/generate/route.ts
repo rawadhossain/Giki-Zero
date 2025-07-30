@@ -1,6 +1,4 @@
-export const dynamic = "force-dynamic";
-
-import { type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -11,7 +9,7 @@ export async function POST(request: NextRequest) {
 		const session = await getServerSession(authOptions);
 
 		if (!session?.user?.id) {
-			return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 		}
 
 		const { type } = await request.json();
@@ -32,29 +30,30 @@ export async function POST(request: NextRequest) {
 		});
 
 		if (!user) {
-			return new Response(JSON.stringify({ error: "User not found" }), { status: 404 });
+			return NextResponse.json({ error: "User not found" }, { status: 404 });
 		}
 
 		// Generate PDF
 		const pdfBuffer = await generatePDFReport(user, type);
 
-		// Save report metadata to database
+		// Save report record
+		const filename = `carbon-report-${type}-${new Date().toISOString().split("T")[0]}.pdf`;
 		await prisma.report.create({
 			data: {
 				userId: session.user.id,
-				filename: `carbon-report-${type}-${new Date().toISOString().split("T")[0]}.pdf`,
-				fileType: "application/pdf",
+				type,
+				filename,
 			},
 		});
 
-		return new Response(new Uint8Array(pdfBuffer), {
+		return new NextResponse(pdfBuffer, {
 			headers: {
 				"Content-Type": "application/pdf",
-				"Content-Disposition": `attachment; filename="carbon-report-${type}.pdf"`,
+				"Content-Disposition": `attachment; filename="${filename}"`,
 			},
 		});
 	} catch (error) {
 		console.error("PDF generation error:", error);
-		return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
+		return NextResponse.json({ error: "Internal server error" }, { status: 500 });
 	}
 }
