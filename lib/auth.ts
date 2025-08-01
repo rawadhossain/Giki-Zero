@@ -25,34 +25,17 @@ export const authOptions: NextAuthOptions = {
 				password: { label: "Password", type: "password" },
 			},
 			async authorize(credentials) {
-				if (!credentials?.email || !credentials?.password) {
-					return null;
-				}
+				if (!credentials?.email || !credentials?.password) return null;
 
-				const parsedCredentials = credentialsSchema.safeParse(credentials);
+				const parsed = credentialsSchema.safeParse(credentials);
+				if (!parsed.success) return null;
 
-				if (!parsedCredentials.success) {
-					console.error("Invalid credentials format");
-					return null;
-				}
+				const { email, password } = parsed.data;
+				const user = await prisma.user.findUnique({ where: { email } });
+				if (!user || !user.password) return null;
 
-				const { email, password } = parsedCredentials.data;
-
-				const user = await prisma.user.findUnique({
-					where: { email },
-				});
-
-				if (!user || !user.password) {
-					console.log("User not found or no password set");
-					return null;
-				}
-
-				const isPasswordValid = await compare(password, user.password);
-
-				if (!isPasswordValid) {
-					console.log("Invalid password");
-					return null;
-				}
+				const isValid = await compare(password, user.password);
+				if (!isValid) return null;
 
 				return {
 					id: user.id,
@@ -69,31 +52,29 @@ export const authOptions: NextAuthOptions = {
 	},
 	callbacks: {
 		async jwt({ token, user, trigger, session }) {
+			// On initial sign-in
 			if (user) {
 				token.id = user.id;
-				token.onboardingCompleted = user.onboardingCompleted;
 			}
 
-			// Handle session updates (like after onboarding completion)
-			if (trigger === "update" && session?.onboardingCompleted !== undefined) {
-				token.onboardingCompleted = session.onboardingCompleted;
-			}
-
-			// Always fetch fresh onboarding status for consistency
+			// Always fetch onboardingCompleted from DB using token.id
 			if (token.id) {
 				const dbUser = await prisma.user.findUnique({
 					where: { id: token.id as string },
 					select: { onboardingCompleted: true },
 				});
-				if (dbUser) {
-					token.onboardingCompleted = dbUser.onboardingCompleted;
-				}
+				token.onboardingCompleted = dbUser?.onboardingCompleted ?? false;
+			}
+
+			// If session was updated manually (e.g., after onboarding)
+			if (trigger === "update" && session?.onboardingCompleted !== undefined) {
+				token.onboardingCompleted = session.onboardingCompleted;
 			}
 
 			return token;
 		},
 		async session({ session, token }) {
-			if (token && session.user) {
+			if (session.user) {
 				session.user.id = token.id as string;
 				session.user.onboardingCompleted = token.onboardingCompleted as boolean;
 			}
