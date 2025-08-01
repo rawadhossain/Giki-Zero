@@ -1,8 +1,8 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
-import { signIn, getSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { signIn, getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,14 @@ export default function SignIn() {
 	});
 	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
+	const { data: session, status } = useSession();
+
+	// ✅ Redirect if already authenticated
+	useEffect(() => {
+		if (status === "authenticated" && session?.user) {
+			router.push("/dashboard");
+		}
+	}, [status, session, router]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData((prev) => ({
@@ -72,20 +80,9 @@ export default function SignIn() {
 	const handleGoogleSignIn = async () => {
 		setIsLoading(true);
 		try {
-			const result = await signIn("google", {
-				callbackUrl: "/dashboard",
-				redirect: false,
+			await signIn("google", {
+				callbackUrl: "/dashboard", // Let NextAuth handle redirect
 			});
-
-			if (result?.ok) {
-				toast.success("Signed in with Google successfully!");
-				router.push("/dashboard");
-				router.refresh();
-			} else if (result?.error) {
-				toast.error("Google sign in failed", {
-					description: "Please try again or use email/password.",
-				});
-			}
 		} catch (error) {
 			console.error("Google sign in error:", error);
 			toast.error("Google sign in failed. Please try again.");
@@ -98,7 +95,7 @@ export default function SignIn() {
 
 	return (
 		<div className="min-h-screen flex flex-col bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-950 dark:to-black">
-			{/* Mobile-friendly header */}
+			{/* Header */}
 			<div className="flex items-center justify-between p-4 sm:p-6">
 				<Button
 					variant="ghost"
@@ -108,36 +105,21 @@ export default function SignIn() {
 				>
 					<ArrowLeft className="h-5 w-5" />
 				</Button>
-				{/*
-                // Original commented out section - keeping it commented as per original
-                <div className="flex items-center gap-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-white">
-                        <Leaf className="h-4 w-4" />
-                    </div>
-                    <span className="text-lg font-semibold">Giki Zero</span>
-                </div>
-                */}
 				<div className="w-10" />
 			</div>
 
-			{/* Main content */}
+			{/* Main */}
 			<div className="flex-1 flex items-center justify-center p-4">
 				<Card
 					className="w-full max-w-md mx-auto 
-                               dark:bg-gray-800 dark:border-gray-700 
-                               dark:shadow-xl dark:shadow-green-500/20 
-                               dark:ring-1 dark:ring-green-600/50 
-                               transition-all duration-300 ease-in-out
-                               hover:dark:shadow-green-500/40 hover:dark:ring-green-500"
+					dark:bg-gray-800 dark:border-gray-700 
+					dark:shadow-xl dark:shadow-green-500/20 
+					dark:ring-1 dark:ring-green-600/50 
+					transition-all duration-300 ease-in-out
+					hover:dark:shadow-green-500/40 hover:dark:ring-green-500"
 				>
 					<CardHeader className="space-y-1 text-center pb-4">
 						<div className="flex items-center justify-center mb-4">
-							{/* Original commented out section - keeping it commented as per original
-                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-600 text-white">
-                                <Leaf className="h-6 w-6" />
-                            </div>
-                            */}
-
 							<div className="flex items-center gap-2">
 								<div className="flex h-8 w-8 items-center justify-center rounded-lg text-green-600">
 									<SproutIcon className="h-12 w-12" />
@@ -156,8 +138,8 @@ export default function SignIn() {
 						<Button
 							variant="outline"
 							className="w-full bg-transparent touch-target
-                                       dark:bg-gray-700 dark:text-gray-50 dark:border-gray-600
-                                       dark:hover:bg-gray-600 dark:hover:border-green-500"
+								dark:bg-gray-700 dark:text-gray-50 dark:border-gray-600
+								dark:hover:bg-gray-600 dark:hover:border-green-500"
 							onClick={handleGoogleSignIn}
 							disabled={isLoading}
 						>
@@ -189,9 +171,7 @@ export default function SignIn() {
 									value={formData.email}
 									onChange={handleChange}
 									required
-									className="touch-target
-                                               dark:bg-gray-700 dark:text-gray-50 dark:border-gray-600
-                                               dark:placeholder-gray-400 dark:focus:ring-green-500"
+									className="touch-target dark:bg-gray-700 dark:text-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-green-500"
 									autoComplete="email"
 								/>
 							</div>
@@ -207,17 +187,13 @@ export default function SignIn() {
 									value={formData.password}
 									onChange={handleChange}
 									required
-									className="touch-target
-                                               dark:bg-gray-700 dark:text-gray-50 dark:border-gray-600
-                                               dark:placeholder-gray-400 dark:focus:ring-green-500"
+									className="touch-target dark:bg-gray-700 dark:text-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-green-500"
 									autoComplete="current-password"
 								/>
 							</div>
 							<Button
 								type="submit"
-								className="w-full touch-target
-                                           dark:bg-green-700 dark:text-white dark:hover:bg-green-600
-                                           dark:focus:ring-green-500"
+								className="w-full touch-target dark:bg-green-700 dark:text-white dark:hover:bg-green-600 dark:focus:ring-green-500"
 								disabled={isLoading || !isFormValid}
 							>
 								<Mail className="mr-2 h-4 w-4" />
