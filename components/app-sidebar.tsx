@@ -153,18 +153,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 							>
 								<DropdownMenuItem asChild>
 									<Link href="/profile">
-										<User className="mr-2 h-4 w-4" />
+										<User className="mr-2 h-4 w-4 cursor-pointer" />
 										Profile
 									</Link>
 								</DropdownMenuItem>
 								<DropdownMenuItem asChild>
 									<Link href="/settings">
-										<Settings className="mr-2 h-4 w-4" />
+										<Settings className="mr-2 h-4 w-4 cursor-pointer" />
 										Settings
 									</Link>
 								</DropdownMenuItem>
-								<DropdownMenuItem onClick={() => signOut()}>
-									<LogOut className="mr-2 h-4 w-4" />
+								<DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
+									<LogOut className="mr-2 h-4 w-4 cursor-pointer" />
 									Log out
 								</DropdownMenuItem>
 							</DropdownMenuContent>
