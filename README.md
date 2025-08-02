@@ -10,9 +10,9 @@
 
 - Google OAuth + Email (NextAuth)
 
-- JWT-based session handling
+- JWT-based session handling and CSRF protection
 
-- CSRF protection
+- Onboarding form for name, age, and location
 
 
 ### 📊 Lifestyle Input & Carbon Score
@@ -105,7 +105,46 @@ giki-zero/
 - **Vercel** – Hosting and CI/CD
 - **React Hook Form** – Form management
 
----
+
+
+
+<br>
+
+## 📐 Setup Instructions
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/rawadhossain/Giki-Zero.git
+```
+###   2. Set Environment Variables
+Create a ```.env``` file in the root directory and fill in:
+```
+# Database
+DATABASE_URL="postgresql://your-database-url"
+
+# NextAuth Configuration
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your_secret"
+
+# Google OAuth
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# Gemini AI
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+### 3. Install Dependencies
+```
+npm run dev
+```
+
+### 4. Run the Development Server
+```
+npm run dev
+```
+
+<br>
 
 ## 🌐 API Endpoints
 ### Emission Survey
@@ -121,9 +160,4 @@ giki-zero/
 ### Reports
 - ```GET /api/report/pdf``` – Generate and download report
 
-## 🧪 Coming Soon
-- Streak tracking and gamification
 
-- Email reminders
-
-- Admin dashboard (for aggregate insights)
