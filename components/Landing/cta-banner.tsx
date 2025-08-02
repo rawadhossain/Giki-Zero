@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export function CTABanner() {
@@ -16,7 +17,7 @@ export function CTABanner() {
 	}, []);
 
 	return (
-		<section className="py-15 px-4 bg-gradient-to-b from-gray-900 via-black to-gray-900 relative overflow-hidden">
+		<section className="px-4 bg-gradient-to-b from-gray-900 via-black to-gray-900 relative overflow-hidden">
 			{/* Smooth Flowing Gradients */}
 			<div className="absolute inset-0 opacity-15">
 				<svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -104,21 +105,23 @@ export function CTABanner() {
 
 				{/* CTA Button */}
 				<div className="animate-fade-in-up animation-delay-1000">
-					<Button
-						size="lg"
-						className="group relative overflow-hidden bg-gradient-to-r from-green-500 via-blue-500 to-green-600 hover:from-green-600 hover:via-blue-600 hover:to-green-700 text-white font-bold text-lg md:text-xl px-10 py-6 rounded-full transition-all duration-500 transform hover:scale-110 shadow-2xl hover:shadow-green-500/30"
-					>
-						<span className="relative z-10 flex items-center space-x-3">
-							<span>Start Tracking</span>
-							<ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
-						</span>
+					<Link href="/dashboard">
+						<Button
+							size="lg"
+							className="group relative overflow-hidden bg-gradient-to-r from-green-500 via-blue-500 to-green-600 hover:from-green-600 hover:via-blue-600 hover:to-green-700 text-white font-bold text-lg md:text-xl px-10 py-6 rounded-full transition-all duration-500 transform hover:scale-110 shadow-2xl hover:shadow-green-500/30"
+						>
+							<span className="relative z-10 flex items-center space-x-3">
+								<span>Start Tracking</span>
+								<ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
+							</span>
 
-						{/* Animated Shine Effect */}
-						<div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+							{/* Animated Shine Effect */}
+							<div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
 
-						{/* Pulsing Glow */}
-						<div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-500 rounded-full blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500 -z-10 scale-150" />
-					</Button>
+							{/* Pulsing Glow */}
+							<div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-500 rounded-full blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500 -z-10 scale-150" />
+						</Button>
+					</Link>
 				</div>
 
 				{/* Supporting Text */}

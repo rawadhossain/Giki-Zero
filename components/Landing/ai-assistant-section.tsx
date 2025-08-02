@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { MessageCircle, Sparkles } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -191,7 +190,7 @@ export function AIAssistantSection() {
 					</div>
 
 					{/* CTA Button */}
-					<Button
+					{/* <Button
 						size="lg"
 						className="group relative overflow-hidden bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 hover:from-green-600 hover:via-blue-600 hover:to-purple-600 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-110 shadow-2xl hover:shadow-green-500/25"
 					>
@@ -200,7 +199,7 @@ export function AIAssistantSection() {
 							Chat with EcoBot Now
 						</span>
 						<div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-					</Button>
+					</Button> */}
 				</div>
 			</div>
 		</section>

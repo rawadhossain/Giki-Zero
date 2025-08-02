@@ -17,7 +17,7 @@ export function TakeActionSection() {
 	}, []);
 
 	return (
-		<section className="py-20 px-4 bg-gradient-to-b from-gray-800 to-gray-900 relative overflow-hidden">
+		<section className="py-10 px-4 bg-gradient-to-b from-gray-800 to-gray-900 relative overflow-hidden">
 			{/* Animated Wave Background */}
 			<div className="absolute inset-0 opacity-10">
 				<svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">

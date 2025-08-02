@@ -1,22 +1,16 @@
 "use client";
 
-import { redirect, useRouter } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/Landing/navbar";
 import { FloatingNavDemo } from "@/components/Landing/floating-nav-demo";
 import { HeroSection } from "@/components/Landing/hero-section";
-import { TakeActionSection } from "@/components/Landing/take-action-section";
 import { AchievementsSection } from "@/components/Landing/achievements-section";
 import { HowItWorksSection } from "@/components/Landing/how-it-works-section";
 import { AIAssistantSection } from "@/components/Landing/ai-assistant-section";
 import { CTABanner } from "@/components/Landing/cta-banner";
 import { Footer } from "@/components/Landing/footer";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function HomePage() {
 	const { data: session, status } = useSession();
