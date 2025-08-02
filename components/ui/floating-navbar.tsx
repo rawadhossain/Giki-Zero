@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import type { JSX } from "react/jsx-runtime";
 import { Menu, SproutIcon, X } from "lucide-react"; // Importing icons for hamburger and close
+import Link from "next/link";
 
 export const FloatingNav = ({
 	navItems,
@@ -114,11 +115,13 @@ export const FloatingNav = ({
 							</a>
 						))}
 						{/* CTA Button for Desktop */}
-						<button className="relative border border-gray-600/50 text-xs sm:text-sm font-medium text-white px-4 py-1.5 sm:px-6 sm:py-2 rounded-full bg-gradient-to-r from-green-500/20 to-blue-500/20 hover:from-green-500 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 group overflow-hidden ml-4">
-							<span className="relative z-10">Get Started</span>
-							<div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-							<span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-green-400 to-transparent h-px" />
-						</button>
+						<Link href="/dashboard">
+							<button className="relative border border-gray-600/50 text-xs sm:text-sm font-medium text-white px-4 py-1.5 sm:px-6 sm:py-2 rounded-full bg-gradient-to-r from-green-500/20 to-blue-500/20 hover:from-green-500 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 group overflow-hidden ml-4">
+								<span className="relative z-10">Get Started</span>
+								<div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+								<span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-green-400 to-transparent h-px" />
+							</button>
+						</Link>
 					</nav>
 				</motion.div>
 			)}
@@ -145,11 +148,13 @@ export const FloatingNav = ({
 								</a>
 							))}
 							{/* CTA Button for Mobile Menu */}
-							<button className="relative border border-gray-600/50 text-base font-medium text-white px-6 py-2 rounded-full bg-gradient-to-r from-green-500/20 to-blue-500/20 hover:from-green-500 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 group overflow-hidden mt-4">
-								<span className="relative z-10">Get Started</span>
-								<div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-								<span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-green-400 to-transparent h-px" />
-							</button>
+							<Link href="/dashboard">
+								<button className="relative border border-gray-600/50 text-base font-medium text-white px-6 py-2 rounded-full bg-gradient-to-r from-green-500/20 to-blue-500/20 hover:from-green-500 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 group overflow-hidden mt-4">
+									<span className="relative z-10">Get Started</span>
+									<div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+									<span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-green-400 to-transparent h-px" />
+								</button>
+							</Link>
 						</nav>
 					</motion.div>
 				)}
