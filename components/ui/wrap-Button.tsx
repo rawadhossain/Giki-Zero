@@ -40,35 +40,29 @@ export const WrapButton: React.FC<WrapButtonProps> = ({ className, children, hre
 
 	// Updated inner content styles with better dark theme and green accents
 	const innerContentBaseClasses = [
-		"border",
-		"border-gray-600/50",
 		"h-[56px]",
 		"sm:h-[68px]",
 		"rounded-full",
 		"flex",
 		"items-center",
 		"justify-center",
-		"text-white",
 		"px-8",
 		"sm:px-10",
+		"text-white",
+		"font-semibold",
+		"text-lg",
 		"relative",
 		"z-10",
-		"overflow-hidden",
-		// Updated background with dark theme and subtle green gradient
 		"bg-gradient-to-r",
-		"from-gray-900/90",
-		"via-gray-800/90",
-		"to-gray-900/90",
-		// Hover effects
-		"group-hover:border-green-400/60",
-		"group-hover:bg-gradient-to-r",
-		"group-hover:from-gray-900/95",
-		"group-hover:via-green-900/20",
-		"group-hover:to-gray-900/95",
-		"group-hover:shadow-inner",
-		"group-hover:shadow-green-500/10",
+		"from-green-800",
+		"to-emerald-500",
+		"shadow-md",
+		"hover:shadow-lg",
+		// "hover:from-green-600",
+		// "hover:to-emerald-600",
 		"transition-all",
 		"duration-300",
+		"ease-in-out",
 	].join(" ");
 
 	// Define common arrow circle styles
@@ -80,7 +74,7 @@ export const WrapButton: React.FC<WrapButtonProps> = ({ className, children, hre
 		"justify-center",
 		"rounded-full",
 		"bg-gradient-to-br",
-		"from-green-500",
+		"from-green-600",
 		"to-blue-500",
 		"text-white",
 		"group-hover:ml-5",
@@ -103,10 +97,10 @@ export const WrapButton: React.FC<WrapButtonProps> = ({ className, children, hre
 						<div className={cn(innerContentBaseClasses)}>
 							{children}
 							{/* Enhanced gradient shimmer overlay on hover */}
-							<span className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400/20 via-emerald-400/20 to-green-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+							{/* <span className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400/20 via-emerald-400/20 to-green-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" /> */}
 
 							{/* Moving gradient shimmer effect */}
-							<span
+							{/* <span
 								className={cn(
 									"absolute inset-0 rounded-full bg-[size:200%_auto]",
 									"bg-gradient-to-r from-transparent via-green-400/30 to-transparent",
@@ -114,7 +108,7 @@ export const WrapButton: React.FC<WrapButtonProps> = ({ className, children, hre
 									"group-hover:animate-[shimmer_1.5s_infinite]",
 									"transition-opacity duration-300"
 								)}
-							/>
+							/> */}
 						</div>
 
 						{/* Animated Arrow Circle */}
