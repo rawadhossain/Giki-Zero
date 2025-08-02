@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, SproutIcon, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Navbar() {
 	const [isScrolled, setIsScrolled] = useState(false);
@@ -69,20 +70,24 @@ export function Navbar() {
 
 					{/* Desktop CTA */}
 					<div className="hidden md:flex items-center space-x-4">
-						<Button
-							variant="ghost"
-							className="text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300"
-						>
-							Sign In
-						</Button>
-						<button
-							className="relative text-base font-medium text-white px-6 py-2 rounded-full bg-gradient-to-r from-green-500 to-blue-500/20 hover:from-green-500 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 group overflow-hidden
+						<Link href="/dashboard">
+							<Button
+								variant="ghost"
+								className="text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300"
+							>
+								Sign In
+							</Button>
+						</Link>
+						<Link href="/dashboard">
+							<button
+								className="relative text-base font-medium text-white px-6 py-2 rounded-full bg-gradient-to-r from-green-500 to-blue-500/20 hover:from-green-500 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 group overflow-hidden
 shadow-md hover:shadow-lg shadow-green-500/50 hover:shadow-green-500/75"
-						>
-							<span className="relative z-10">Get Started</span>
-							<div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-							<span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-green-400 to-transparent h-px" />
-						</button>
+							>
+								<span className="relative z-10">Get Started</span>
+								<div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+								<span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-green-400 to-transparent h-px" />
+							</button>
+						</Link>
 					</div>
 
 					{/* Mobile Menu Button */}

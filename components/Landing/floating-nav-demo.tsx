@@ -26,7 +26,7 @@ export function FloatingNavDemo() {
 		},
 		{
 			name: "Contact",
-			link: "#contact",
+			link: "#footer",
 			icon: <MessageCircle className="h-4 w-4 text-gray-400" />,
 		},
 	];
